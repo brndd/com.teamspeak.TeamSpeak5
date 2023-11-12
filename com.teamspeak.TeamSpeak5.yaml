@@ -1,0 +1,46 @@
+app-id: com.teamspeak.TeamSpeak5
+tags:
+  - proprietary
+runtime: org.gnome.Platform
+runtime-version: '45'
+sdk: org.gnome.Sdk
+command: teamspeak5
+finish-args:
+  - --socket=x11
+  - --socket=pulseaudio
+  - --share=ipc
+  - --share=network
+  - --device=dri
+  - --filesystem=xdg-download
+modules:
+  - name: teamspeak5
+    buildsystem: simple
+    build-commands:
+      - install -D apply_extra /app/bin/apply_extra
+      - install -D teamspeak5 /app/bin/teamspeak5
+      - install -Dm644 -t /app/share/metainfo com.teamspeak.TeamSpeak5.appdata.xml
+      - install -Dm644 -t /app/share/applications com.teamspeak.TeamSpeak5.desktop
+      - install -Dm644 -t /app/share/icons/hicolor/128x128/apps com.teamspeak.TeamSpeak5.png
+    sources:
+      - type: file
+        path: com.teamspeak.TeamSpeak5.desktop
+      - type: file
+        path: com.teamspeak.TeamSpeak5.png
+      - type: file
+        path: com.teamspeak.TeamSpeak5.appdata.xml
+      - type: extra-data
+        only-arches:
+          - x86_64
+        filename: teamspeak-client.tar.gz
+        url: https://files.teamspeak-services.com/pre_releases/client/5.0.0-beta76/teamspeak-client.tar.gz
+        sha256: c4c74d862464a48bd04f9ac76b6f1c13eb0d8b46c2f07ec32530ef15a185f8bb
+        size: 149354880
+      - type: script
+        dest-filename: apply_extra
+        commands:
+          - tar xf teamspeak-client.tar.gz
+          - rm -f teamspeak-client.tar.gz
+      - type: script
+        dest-filename: teamspeak5
+        commands:
+          - exec /app/extra/TeamSpeak "$@"

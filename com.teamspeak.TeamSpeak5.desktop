@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=TeamSpeak5
+Comment=TeamSpeak5 VoIP application
+Exec=teamspeak5 %u
+MimeType=x-scheme-handler/ts3server;
+Terminal=false
+Type=Application
+Icon=com.teamspeak.TeamSpeak5
+Categories=Network;Chat;
